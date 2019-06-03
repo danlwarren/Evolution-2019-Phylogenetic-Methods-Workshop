@@ -1,47 +1,44 @@
 ---
 title: "SSB Workshop - New Methods in Phylogenetics and Evolution"
 author: "Dan Warren"
-date: "6/3/2019"
-output: html_document
+date: "6/21/2019"
+output:
+  html_document: 
+    toc: TRUE
+    toc_float: TRUE
 ---
  
-Workshop Description
+# Workshop Description
 Phylogenies form the foundation of our understanding of both the pattern and process of evolution on Earth.  Methods for inferring phylogenies and using them in comparative and macroevolutionary analyses are constantly improving, and it can prove difficult for even seasoned investigators in the field to keep pace.  In this workshop we will offer a collection of short (approximately one hour per topic) courses on a diverse array of new analytical methods.  
 
 This workshop will be suitable for graduate students, postdocs, and senior faculty.  It is intended for users who are already familiar with R and have a good working knowledge of phylogenetics.  Attendees will be expected to bring a laptop with R and RStudio installed, and will be provided with a list of necessary R packages beforehand.
 
 
-Participants and Presentation Titles (all participants confirmed)
+# Sections
 
-Klaus Schliep
-University of Massachusetts
-Phylogenetic analysis with phangorn and ape
+###  1. Phylogenetic analysis with phangorn and ape
+*Klaus Schliep, University of Massachusetts*
 
-Samantha Price
-Clemson University
-Macroevolutionary experimental design and how to use simulations to improve your phylogenetic comparative analyses.
+### 2. Macroevolutionary experimental design, using simulations to improvecomparative analyses
+*Samantha Price, Clemson University*
 
-April Wright
-Southeastern Louisiana University
-Reproducible workflows for total-evidence dating analyses
+### 3. Evolutionary radiations with Geiger and Arbor
+*Luke Harmon, University of Idaho*
 
-Graeme Lloyd
-University of Leeds, Leeds UK
-Plotting trees against geologic time and generating phylomorphospaces from discrete character data using the R packages Claddis and strap
+### 4. Reproducible workflows for total-evidence dating analyses
+*April Wright, Southeastern Louisiana University*
 
-Luke Harmon
-University of Idaho
-Investigating evolutionary radiations with Geiger and Arbor
+### 5. Plotting trees against geologic time and generating phylomorphospaces from discrete character data using Claddis and strap
+*Graeme Lloyd, University of Leeds*
 
-Tara Pelletier
-Radford University
-Conducting posterior predictive checks in Bayesian phylogenetics
+### 6. Posterior predictive checks in Bayesian phylogenetics
+*Tara Pelletier, Radford University*
 
-Liam Revell
-University of Massachusetts
-New models & methods for the analysis of discrete character evolution 
-on phylogenies in R
+### 7. Visualizing phylogenetic MCMC with RWTY
+*Dan Warren, Senckenberg Biodiversity and Climate Research Center*
 
-Dan Warren
-Senckenberg Biodiversity and Climate Research Center, Frankfurt Germany
-R We There Yet: an R package for diagnosing and visualizing the performance of MCMC chains in Bayesian phylogenetics
+### 8. Analysis of discrete character evolution on phylogenies in R
+*Liam Revell, University of Massachusetts*
+
+
+
