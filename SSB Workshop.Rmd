@@ -1,0 +1,47 @@
+---
+title: "SSB Workshop - New Methods in Phylogenetics and Evolution"
+author: "Dan Warren"
+date: "6/3/2019"
+output: html_document
+---
+ 
+Workshop Description
+Phylogenies form the foundation of our understanding of both the pattern and process of evolution on Earth.  Methods for inferring phylogenies and using them in comparative and macroevolutionary analyses are constantly improving, and it can prove difficult for even seasoned investigators in the field to keep pace.  In this workshop we will offer a collection of short (approximately one hour per topic) courses on a diverse array of new analytical methods.  
+
+This workshop will be suitable for graduate students, postdocs, and senior faculty.  It is intended for users who are already familiar with R and have a good working knowledge of phylogenetics.  Attendees will be expected to bring a laptop with R and RStudio installed, and will be provided with a list of necessary R packages beforehand.
+
+
+Participants and Presentation Titles (all participants confirmed)
+
+Klaus Schliep
+University of Massachusetts
+Phylogenetic analysis with phangorn and ape
+
+Samantha Price
+Clemson University
+Macroevolutionary experimental design and how to use simulations to improve your phylogenetic comparative analyses.
+
+April Wright
+Southeastern Louisiana University
+Reproducible workflows for total-evidence dating analyses
+
+Graeme Lloyd
+University of Leeds, Leeds UK
+Plotting trees against geologic time and generating phylomorphospaces from discrete character data using the R packages Claddis and strap
+
+Luke Harmon
+University of Idaho
+Investigating evolutionary radiations with Geiger and Arbor
+
+Tara Pelletier
+Radford University
+Conducting posterior predictive checks in Bayesian phylogenetics
+
+Liam Revell
+University of Massachusetts
+New models & methods for the analysis of discrete character evolution 
+on phylogenies in R
+
+Dan Warren
+Senckenberg Biodiversity and Climate Research Center, Frankfurt Germany
+R We There Yet: an R package for diagnosing and visualizing the performance of MCMC chains in Bayesian phylogenetics
