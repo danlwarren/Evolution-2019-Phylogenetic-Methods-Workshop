@@ -1,0 +1,17 @@
+---
+title: "Setup"
+author: "Dan Warren"
+date: "6/21/2019"
+output: html_document
+---
+
+# R packages
+
+In order to run the examples in this workshop, you will need to install a number of R packages.  Run the following code in your R session while you have a connection to the internet:
+
+```{r install-r, eval=FALSE}
+workshop.packages <- c("rwty")
+
+install.packages(workshop.packages)
+```
+
