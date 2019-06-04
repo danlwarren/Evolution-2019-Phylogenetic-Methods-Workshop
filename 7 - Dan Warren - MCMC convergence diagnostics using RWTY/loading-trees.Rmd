@@ -1,0 +1,46 @@
+---
+title: "Loading in MCMC chains"
+author: "Dan Warren"
+date: "6/4/2019"
+output: html_document
+---
+
+This is just a quick little side-vignette to give you some idea of how to load your MCMC outputs into rwty.  We'll start by loading in a single chain and its associated log file with model parameters.
+```{r warning=FALSE, message=FALSE}
+library(rwty)
+library(knitr)
+```
+
+<br>
+<br>
+
+We load trees into rwty using the load.trees function.  It can understand a bunch of different formats (see the "format" part of the help file for options).  It defaults to MrBayes format, though, and that's close enough to what our data looks like.
+
+```{r}
+fungus.single <- load.trees("./fungus trees/fungus1.t", logfile = "./fungus trees/fungus1.p")
+
+kable(head(fungus.single$ptable), row.names = FALSE)
+```
+
+<br>
+<br>
+
+There's something wrong with our parameter table! The column names aren't right.  This is because rwty is interpreting these as MrBayes files, which usually have a comment on the first line.  If we open our parameter table in a text editor we see that there is no comment at the head of the file, though.  We can fix this behavior by using the "skip" argument.  By default "skip" is set to 1, so rwty starts reading on the second line.  We'll just set it to 0 so that it works for our files.
+
+```{r}
+fungus.single <- load.trees("./fungus trees/fungus1.t", logfile = "./fungus trees/fungus1.p", skip = 0)
+
+kable(head(fungus.single$ptable), row.names = FALSE)
+```
+
+<br>
+<br>
+
+Much better!  Quite often, though, we want to read in several chains and parameter tables at once.  We can do this just by putting them all in the same directory and using the "load.multi" function.  This function will search the directory and read in all of the tree files and associated parameter tables it finds.
+
+```{r}
+fungus.multi <- load.multi("./fungus trees/", skip = 0)
+fungus.multi
+kable(head(fungus.multi$fungus1.t$ptable), row.names = FALSE)
+```
+
