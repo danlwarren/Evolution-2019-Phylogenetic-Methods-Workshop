@@ -10,8 +10,13 @@ output: html_document
 In order to run the examples in this workshop, you will need to install a number of R packages.  Run the following code in your R session while you have a connection to the internet:
 
 ```{r install-r, eval=FALSE}
-workshop.packages <- c("rwty")
+workshop.packages <- c("rwty", "knitr", "bookdown")
 
 install.packages(workshop.packages)
 ```
 
+
+# RevBayes
+
+We will also make use of the software RevBayes. Please install the appropriate version for your
+operating system [here](https://revbayes.github.io/software).
