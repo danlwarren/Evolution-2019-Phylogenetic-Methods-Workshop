@@ -1,0 +1,107 @@
+Simulation parameters for current simulations
+=============================================
+
+
+Deme sizes
+Deme 0	18825093
+Deme 1	10009402
+Deme 2	556572
+Deme 3	540624
+Deme 4	548330
+Deme 5	647558
+
+
+Sample sizes
+Deme 0	4
+Deme 1	4
+Deme 2	4
+Deme 3	4
+Deme 4	4
+Deme 5	4
+
+Sample ages
+Deme 0	0
+Deme 1	0
+Deme 2	0
+Deme 3	0
+Deme 4	0
+Deme 5	0
+
+Growth rates
+Deme 0	0
+Deme 1	0
+Deme 2	0
+Deme 3	0
+Deme 4	0
+Deme 5	0
+
+
+Historical events
+Event 0
+
+#Time             : 35249
+#Source           : 0
+#Sink             : 1
+#Migrants         : 1
+#New size         : 2.88074
+#New growth rate  : 0
+#New migr. matrix : 0
+
+Event 1
+
+#Time             : 3015316
+#Source           : 4
+#Sink             : 5
+#Migrants         : 1
+#New size         : 1.84677
+#New growth rate  : 0
+#New migr. matrix : 0
+
+Event 2
+
+#Time             : 5039490
+#Source           : 3
+#Sink             : 5
+#Migrants         : 1
+#New size         : 1.45207
+#New growth rate  : 0
+#New migr. matrix : 0
+
+Event 3
+
+#Time             : 5186494
+#Source           : 2
+#Sink             : 1
+#Migrants         : 1
+#New size         : 1.0193
+#New growth rate  : 0
+#New migr. matrix : 0
+
+Event 4
+
+#Time             : 8232821
+#Source           : 5
+#Sink             : 1
+#Migrants         : 1
+#New size         : 1.05908
+#New growth rate  : 0
+#New migr. matrix : 0
+
+
+
+Number of independent loci to simulate : 2000
+With the same chromosomal structure
+
+Number of linkage blocks to simulate in structure 1: 1
+
+   1 partially linked SNP loci:
+      recombination rate and minimum frequency      : 0.0000000000   0.0000000000   0.00000
+
+
+
+Random generator initialized with : 434488
+
+
+
+done in 0.204 secs
+
