@@ -1,0 +1,12 @@
+### Create and submit pbs jobscripts for each xml file ###
+
+for f in *.xml;
+    do
+    
+        # make jobscripts
+        sed "s/xx/$f/g" xxjobscript > jobscript_$f
+        
+        # submit jobscripts
+        qsub -z jobscript_$f
+
+done
