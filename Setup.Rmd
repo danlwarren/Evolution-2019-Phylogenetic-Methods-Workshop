@@ -10,9 +10,12 @@ output: html_document
 In order to run the examples in this workshop, you will need to install a number of R packages.  Run the following code in your R session while you have a connection to the internet:
 
 ```{r install-r, eval=FALSE}
-workshop.packages <- c("rwty", "knitr", "bookdown")
+workshop.packages <- c("rwty", "knitr", "bookdown", "strap", "devtools")
 
-install.packages(workshop.packages)
+install.packages(workshop.packages, dependencies = TRUE)
+
+devtools::install_github("graemetlloyd/Claddis")
+devtools::install_github("graemetlloyd/metatree")
 ```
 
 
