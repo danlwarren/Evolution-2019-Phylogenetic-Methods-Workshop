@@ -16,6 +16,7 @@ install.packages(workshop.packages, dependencies = TRUE)
 
 devtools::install_github("graemetlloyd/Claddis")
 devtools::install_github("graemetlloyd/metatree")
+devtools::install_github("uyedaj/treeplyr")
 ```
 
 

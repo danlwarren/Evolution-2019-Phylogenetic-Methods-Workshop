@@ -1,0 +1,193 @@
+---
+title: "Comparative methods in the tidyverse"
+output: html_document
+---
+
+## The tidyverse
+
+The tidyverse is a collection of R packages that share a common philosophy and language for working with data.
+
+Tidyverse packages are useful because they allow users to sort, filter, and merge data structures in a unified way.
+
+However, things in the tidyverse can sometimes diverge from the normal way things are done in R.
+
+You can [read more](https://www.tidyverse.org/) about the tidyverse.
+
+## Trees and data in the tidyverse
+
+Let's get some example data and see what we can do.
+
+```{r}
+require(ape)
+tree <- read.tree("Data/sampleTree.phy")
+dat <- read.csv("Data/sampleData.csv")
+
+# First notice some problems typical of comparative data
+match(tree$tip.label, dat[,"taxa"])
+# and
+match(dat[,"taxa"], tree$tip.label)
+
+# Now we can glue these two together to make a "treedata" object
+require(treeplyr)
+td <- make.treedata(tree, dat)
+summary(td)
+
+```
+Notice that make.treedata performs a match using the "taxa" column, reporting back which tips were mismatched between the tree and data.
+ 
+## Interacting with the treedata object
+
+You can interact directly with parts of the treedata object if you want - but stay tuned for better ways to do most of this.
+
+```{r}
+# these work - but drop the tree
+td[1:10, 2, tip.label=TRUE]
+td[[2]]
+td[['X1']]
+
+# better way to extract columns that retains tip labels
+getVector(td, X1)
+getVector(td, D2)
+
+# this works as well
+plot(td$phy)
+
+```
+
+## Working in the tidyverse
+
+*Reorder* 
+
+Reorder changes the internal node order in the phy object while maintaining the match between tips and trees. This has no effect on outputs, but can speed computation in some cases.
+
+```{r}
+td_po <- reorder(td, "postorder")
+```
+
+*Select*
+
+Select allows you to choose certain columns in the data matrix. Since columns are being chosen nothing happens to the tree.
+
+```{r}
+td_s1 <- select(td, X1, D1)
+summary(td_s1)
+head(td_s1$dat)
+
+td_s2<-select(td, 1:3)
+summary(td_s2)
+
+td_s3<-select(td, 1, 4, 6)
+summary(td_s3)
+
+```
+
+You can also use the fancy tools from dplyr.
+
+```{r}
+td_s4<-select(td, starts_with("D"))
+td_s4
+
+td_s5<-select(td, ends_with("1"))
+td_s5
+
+td_s6<-select(td, matches("NA"))
+td_s6
+
+td_s7<-select(td, -matches("NA"))
+td_s7
+
+td_s8<-select(td, -starts_with("X"))
+td_s8
+```
+
+*Filter*
+
+Filter allows you to choose certain rows in the data matrix. Since rows are selected then tips in the tree are also pruned accordingly.
+
+```{r}
+td_f1<-filter(td, X1 > 0, D1=="Hello", is.na(XNA1)==FALSE)
+td_f1
+
+td_f2<-filter(td, X1 + X2 > 0 & D1 == "Hello")
+td_f2
+```
+
+
+*Mutate*
+
+Filter allows you to add new columns to the data matrix. 
+
+```{r}
+td_m1<-mutate(td, Xall = (X1+X2+X3)/3, D1.binary = as.numeric(D1)-1)
+summary(td_m1)
+td_m1[c("Xall", "D1.binary")]
+
+```
+
+## Using treeplyr to run functions over trees
+
+You can run r functions on treeplyr objects in a straightforward way using standard R:
+
+```{r}
+require(phytools)
+ltt.plot(td$phy)
+phylosig(td$phy, getVector(td, X1))
+```
+
+But there is a nifty way to do this:
+
+```{r}
+treedply(td, phylosig(phy, getVector(td, X1), "K"))
+treedply(td, list("K" = phylosig(phy, getVector(td, X1), "K"), "lambda" = phylosig(phy, getVector(td, X1),"lambda")))
+
+```
+
+```{r}
+tdDiscrete <- forceFactor(td)
+tdNumeric <- forceNumeric(td)
+tdNumeric <- filter(tdNumeric, !is.na(XNA1))
+
+
+par(mfrow=c(2,3))
+tdapply(tdNumeric, 2, phytools::phenogram, tree=phy, spread.labels=FALSE, ftype="off")
+
+fitsBM <- tdapply(tdNumeric, 2, geiger::fitContinuous, phy=phy, model="BM")
+sapply(fitsBM, function(x) x$opt$sigsq)
+```
+
+```{r}
+td.OU10 <- treeply(td, geiger::rescale, model="OU", 10)
+par(mfrow=c(1,2))
+plot(td$phy)
+plot(td.OU10$phy)
+
+treeply(td, drop.tip, c(1:35))
+
+```
+
+```{r}
+td.D1 <- group_by(td, D1)
+summarize(td.D1, mean(X1), sd(X1), mean(X2), sd(X2))
+summarise(td.D1, ntips = length(phy$tip.label), 
+            psig.X1 = phytools::phylosig(setNames(X1, phy$tip.label), tree=phy),
+              psig.X2 = phytools::phylosig(setNames(X2, phy$tip.label), tree=phy))
+
+summarise(td.D1, ntips = length(phy$tip.label), 
+              totalTL = sum(phy$edge.length), varianceBL = var(phy$edge.length))
+
+summarise(td.D1, sigsq = geiger::fitContinuous(phy, setNames(X1, phy$tip.label))$opt$sigsq, 
+                 root = geiger::fitContinuous(phy, setNames(X1, phy$tip.label))$opt$z0)
+
+```
+
+```{r}
+td.painted <- paint_clades(td, interactive=FALSE, type="nodes", ids=c(75, 66, 54, 48), plot=TRUE)
+
+td.painted <- group_by(td.painted, clades)
+summarise(td.painted, psig1 = phytools::phylosig(setNames(X1, phy$tip.label), tree=phy), 
+          meanX1 = mean(X1), sdX1 = sd(X1), ntips =length(phy$tip.label))
+```
+
+(there is also an interactive mode)
+
+
