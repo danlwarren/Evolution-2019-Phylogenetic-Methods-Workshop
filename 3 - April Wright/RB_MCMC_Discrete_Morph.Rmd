@@ -213,7 +213,7 @@ Import the morphological character matrix and assign it to the variable
 `morpho`. We will be using a matrix of extant and fossil data from Barden and Grimaldi (2017). 
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
     morpho <- readDiscreteCharacterData("data/ants.nex")
 ```
 
@@ -229,7 +229,7 @@ the number of branches in the tree. We will also create a constant node of
 the taxon names. This list will be used to initialize the tree.
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
     taxa <- morpho.names()
     num_taxa <- morpho.size() 
     num_branches <- 2 * num_taxa - 2
@@ -242,7 +242,7 @@ time a new move is added to the vector, `mvi` will be incremented by a
 value of `1`.
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
     mvi = 1
     mni = 1
 ```
@@ -258,7 +258,7 @@ First, we will create a joint prior on the branch lengths and tree topology.
 This should be familiar from the {% page_ref ctmc %}
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
     br_len_lambda ~ dnExp(0.2)
     moves[mvi++] = mvScale(br_len_lambda, weight=2)
 
@@ -276,7 +276,7 @@ using `fnJC`, which initializes Q-matrices with equal transition
 probabilities between all states.
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
     Q_morpho <- fnJC(8)
 ```
 
@@ -285,7 +285,7 @@ Gamma-distributed rate variation and specify moves on the parameter to
 the Gamma distribution.
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 Q_morpho
 ```
 
@@ -299,7 +299,7 @@ Q_morpho
 
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
     alpha_morpho ~ dnUniform( 0, 1E6 )
     rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
     #Moves on the parameters to the Gamma distribution.
@@ -314,7 +314,7 @@ argument specifies the type of data - in our case, “Standard”, the
 specification for morphology.
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
     phyMorpho ~ dnPhyloCTMC(tree=phylogeny, siteRates=rates_morpho, Q=Q_morpho, type="Standard")
     phyMorpho.clamp(morpho)
 ```
@@ -330,7 +330,7 @@ model DAG. We will do this with the `model()` function and provide a
 single node in the graph (`phylogeny`).
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
     mymodel = model(phylogeny)
 ```
 
@@ -356,7 +356,7 @@ output file for this monitor and indicate that we wish to sample our
 MCMC every 10 cycles.
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
     monitors[mni++] = mnModel(filename="output/mk_gamma.log", printgen=10)
 ```
 
@@ -370,7 +370,7 @@ numerical), we will use `mnFile` to write the tree to file by specifying
 our `phylogeny` variable in the arguments.
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
     monitors[mni++] = mnFile(filename="output/mk_gamma.trees", printgen=10, phylogeny)
 ```
 
@@ -379,7 +379,7 @@ the screen. Like with `mnFile` we must tell `mnScreen` which parameters
 we'd like to see updated on the screen.
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
     monitors[mni++] = mnScreen(printgen=100)
 ```
 
@@ -391,7 +391,7 @@ the workspace variable that defines our MCMC run. We do this using the
 as arguments.
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
     mymcmc = mcmc(mymodel, monitors, moves, nruns=2, combine="mixed")
 ```
 
@@ -400,7 +400,7 @@ The MCMC object that we named `mymcmc` has a member method called
 length to `10000` cycles using the `generations` option.
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
     mymcmc.run(generations=10000, tuningInterval=200)
 ```
 
@@ -408,7 +408,7 @@ Once our Markov chain has terminated, we will want RevBayes to close.
 Tell the program to quit using the `q()` function.
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
     q()
 ```
 
