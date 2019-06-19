@@ -199,13 +199,17 @@ $(document).ready(function () {
 <div id="r-packages" class="section level1">
 <h1>R packages</h1>
 <p>In order to run the examples in this workshop, you will need to install a number of R packages. Run the following code in your R session while you have a connection to the internet:</p>
-<pre class="r"><code>workshop.packages &lt;- c(&quot;rwty&quot;, &quot;knitr&quot;, &quot;bookdown&quot;, &quot;strap&quot;, &quot;devtools&quot;)
+<pre class="r"><code>workshop.packages &lt;- c(&quot;rwty&quot;, &quot;knitr&quot;, &quot;bookdown&quot;, &quot;strap&quot;, &quot;devtools&quot;, &quot;ape&quot;, &quot;phytools&quot;, &quot;geiger&quot;, &quot;OUwie&quot;)
 
 install.packages(workshop.packages, dependencies = TRUE)
 
 devtools::install_github(&quot;graemetlloyd/Claddis&quot;)
 devtools::install_github(&quot;graemetlloyd/metatree&quot;)
-devtools::install_github(&quot;uyedaj/treeplyr&quot;)</code></pre>
+devtools::install_github(&quot;uyedaj/treeplyr&quot;)
+
+if (!requireNamespace(&quot;BiocManager&quot;, quietly = TRUE))
+  install.packages(&quot;BiocManager&quot;)
+BiocManager::install(&quot;ggtree&quot;)</code></pre>
 </div>
 <div id="revbayes" class="section level1">
 <h1>RevBayes</h1>

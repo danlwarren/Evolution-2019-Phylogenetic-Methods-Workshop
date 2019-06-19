@@ -10,13 +10,17 @@ output: html_document
 In order to run the examples in this workshop, you will need to install a number of R packages.  Run the following code in your R session while you have a connection to the internet:
 
 ```{r install-r, eval=FALSE}
-workshop.packages <- c("rwty", "knitr", "bookdown", "strap", "devtools")
+workshop.packages <- c("rwty", "knitr", "bookdown", "strap", "devtools", "ape", "phytools", "geiger", "OUwie")
 
 install.packages(workshop.packages, dependencies = TRUE)
 
 devtools::install_github("graemetlloyd/Claddis")
 devtools::install_github("graemetlloyd/metatree")
 devtools::install_github("uyedaj/treeplyr")
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("ggtree")
 ```
 
 
