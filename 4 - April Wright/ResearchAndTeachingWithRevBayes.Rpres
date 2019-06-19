@@ -22,6 +22,16 @@ The Graphical Modeling Framework
 
 - What is a model?
   + A model uses mathematics to describe a process, or the behavior of a system
+  + Important facets of the generating process of the data are written down as parameters
+
+The Graphical Modeling Framework
+========================================================
+
+- What is a model?
+  + A model uses mathematics to describe a process, or the behavior of a system
+  + Important facets of the generating process of the data are written down as parameters
+
+- A graphical model represents the relationships and dependencies between model paramters
 
 A simple case
 ========================================================
@@ -55,6 +65,8 @@ A **not so** simple case
 - It's easy to describe a model where we are manipulating one parameter
 - But we rarely have such a simple case when we're analysing biological data
 - We're describing the mechanisms that generated our observed data
+  + In the case of a tree, this is the process of molecular or morphological evolution
+  
 
 A **not so** simple case
 ========================================================
@@ -152,6 +164,22 @@ Engaging with underlying assumptions
 - Most phylogenetic estimations treat among-site rate variation as Gamma-distributed
  - Not every site in a nucleotide alignment evolves at the same rate
  - Not every character in a morphological dataset evolves at the same rate
+
+Phylogenetical Complexity
+========================================================
+
+```{r}
+library(dplyr)
+library(ggplot2)
+dat <- data.frame(draws = c(rgamma(n = 500, shape = .1, scale = 10),rgamma(n = 500, shape = .5, scale = 10)))
+
+d2 <- dat %>%  summarize(lower = quantile(dat$draws, probs = .25), middle = quantile(dat$draws, probs = .5), seventyfive = quantile(dat$draws, probs = .75), upper = quantile(dat$draws, probs = .99))
+
+ggplot(dat, aes(x=draws)) + geom_density() + geom_vline(data = d2, aes(xintercept = lower)) + geom_vline(data = d2, aes(xintercept = middle)) +geom_vline(data = d2, aes(xintercept = seventyfive)) +geom_vline(data = d2, aes(xintercept = upper)) 
+
+```
+
+
 
 Engaging with underlying assumptions
 ========================================================
