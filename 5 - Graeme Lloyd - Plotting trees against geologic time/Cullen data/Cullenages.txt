@@ -1,0 +1,16 @@
+	FAD	LAD
+Allosaurus_fragilis	157	145
+Tyrannosaurids	139	134
+Harpymimus_okladnikovi	113	100
+Shenzousaurus_orientalis	131	113
+Beishanlong_grandis	126	100
+Garudimimus_brevipes	100	83.6
+Archaeornithomimus_asiaticus	93.9	83.6
+Sinornithomimus_dongi	93.9	89.8
+Gallimimus_bullatus	83.6	66
+Anserimimus_planinychus	72.1	66
+Qiupalong_henanensis	100	66
+Struthiomimus_altus	83.6	66
+Ornithomimus_edmontonicus	83.6	66
+Pelecanimimus_polyodon	131	126
+Dry_Island_bonebed_specimens	72.1	66

@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+#
+#PBS -l walltime=10:00:00
+#PBS -l nodes=1:ppn=28
+#PBS -N xx
+#PBS -j oe
+#PBS -A PAP0001
+
+cd $PBS_O_WORKDIR
+~/Programs/beast/bin/beast -threads 8 xx

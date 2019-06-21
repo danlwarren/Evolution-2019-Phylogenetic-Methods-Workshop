@@ -1,0 +1,81 @@
+#NEXUS
+[R-package APE, Mon Oct 12 16:59:53 2015]
+
+BEGIN TAXA;
+	DIMENSIONS NTAX = 34;
+	TAXLABELS
+		Sparisoma_radians
+		Sparisoma_chrysopterum
+		Sparisoma_viride
+		Sparisoma_aurofrenatum
+		Sparisoma_rubripinne
+		Sparisoma_atomarium
+		Cryptotomus_roseus
+		Leptoscarus_vaigiensis
+		Calotomus_carolinus
+		Calotomus_spinidens
+		Bolbometopon_muricatum
+		Cetoscarus_bicolor
+		Hipposcarus_longiceps
+		Chlorurus_bleekeri
+		Chlorurus_microrhinos
+		Chlorurus_sordidus
+		Scarus_schlegeli
+		Scarus_flavipectoralis
+		Scarus_psittacus
+		Scarus_quoyi
+		Scarus_rivulatus
+		Scarus_globiceps
+		Scarus_oviceps
+		Scarus_chameleon
+		Scarus_niger
+		Scarus_forsteni
+		Scarus_altipinnis
+		Scarus_rubroviolaceus
+		Scarus_dimidiatus
+		Scarus_frenatus
+		Scarus_ghobban
+		Scarus_taeniopterus
+		Scarus_iseri
+		Scarus_spinus
+	;
+END;
+BEGIN TREES;
+	TRANSLATE
+		1	Sparisoma_radians,
+		2	Sparisoma_chrysopterum,
+		3	Sparisoma_viride,
+		4	Sparisoma_aurofrenatum,
+		5	Sparisoma_rubripinne,
+		6	Sparisoma_atomarium,
+		7	Cryptotomus_roseus,
+		8	Leptoscarus_vaigiensis,
+		9	Calotomus_carolinus,
+		10	Calotomus_spinidens,
+		11	Bolbometopon_muricatum,
+		12	Cetoscarus_bicolor,
+		13	Hipposcarus_longiceps,
+		14	Chlorurus_bleekeri,
+		15	Chlorurus_microrhinos,
+		16	Chlorurus_sordidus,
+		17	Scarus_schlegeli,
+		18	Scarus_flavipectoralis,
+		19	Scarus_psittacus,
+		20	Scarus_quoyi,
+		21	Scarus_rivulatus,
+		22	Scarus_globiceps,
+		23	Scarus_oviceps,
+		24	Scarus_chameleon,
+		25	Scarus_niger,
+		26	Scarus_forsteni,
+		27	Scarus_altipinnis,
+		28	Scarus_rubroviolaceus,
+		29	Scarus_dimidiatus,
+		30	Scarus_frenatus,
+		31	Scarus_ghobban,
+		32	Scarus_taeniopterus,
+		33	Scarus_iseri,
+		34	Scarus_spinus
+	;
+	TREE * UNTITLED = [&R] (((((1:11.04556825,(2:7.348783871,(3:6.894915768,(4:6.361777335,5:6.361777335):0.5331384331):0.4538681029):3.696784374):1.603664386,6:12.64923263):7.525607565,7:20.1748402):3.694809748,(8:21.02260675,(9:0.14486467,10:0.14486467):20.87774208):2.847043195):4.451886038,((11:12.3848841,12:12.3848841):7.467239999,(13:16.21607348,(((14:3.248617373,15:3.248617373):1.159188138,16:4.407805511):6.523478719,(((17:3.712664414,18:3.712664414):3.078930658,19:6.791595072):1.831867908,(((20:2.809581562,(21:0.7965798107,(22:0.3128955848,23:0.3128955848):0.4836842258):2.013001752):1.691560733,24:4.501142296):2.901167899,(((((25:3.590712564,(26:2.921100986,27:2.921100986):0.6696115786):1.2014232,28:4.792135764):0.2396766426,(29:3.370322724,30:3.370322724):1.661489683):0.7640195533,(31:5.108421146,(32:4.309638478,33:4.309638478):0.798782668):0.6874108139):1.044921454,34:6.840753414):0.561556781):1.221152785):2.30782125):5.284789248):3.636050618):8.469411887);
+END;

@@ -22,11 +22,11 @@ This workshop will be suitable for graduate students, postdocs, and senior facul
 ### 2. Macroevolutionary experimental design, using simulations to improvecomparative analyses
 *Samantha Price, Clemson University*
 
-### 3. Evolutionary radiations with Geiger and Arbor
-*Luke Harmon, University of Idaho*
-
-### 4. Reproducible workflows for total-evidence dating analyses
+### 3. Reproducible workflows for total-evidence dating analyses
 *April Wright, Southeastern Louisiana University*
+
+### 4. Comparative methods in the tidyverse
+*Luke Harmon, University of Idaho*
 
 ### 5. Plotting trees against geologic time and generating phylomorphospaces from discrete character data using Claddis and strap
 *Graeme Lloyd, University of Leeds*

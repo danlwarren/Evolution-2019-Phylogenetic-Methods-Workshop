@@ -1,0 +1,324 @@
+---
+title: "ape and phangorn"
+author: 
+- name: Klaus Schliep 
+  affiliation: University of Massachusetts Boston
+  email: klaus.schliep@gmail.com
+date: "6/14/2019"
+abstract: |
+  A short introduction to ape and phangorn
+output: 
+  BiocStyle::html_document
+bibliography: bibliography.bib  
+vignette: >
+  %\VignetteIndexEntry{ape and phangorn}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}  
+---
+---
+nocite: | 
+  @Paradis2018, @Schliep2011
+...
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Getting started 
+
+## Installation
+
+If haven't done it you can install ape and phangorn from [CRAN](https://cran.r-project.org/)
+```{r, eval=FALSE}
+install.packages("ape", "phangorn")
+```
+
+To test bleeding edge features or help with the development you may want install the development version of *ape* or *phangorn* 
+
+Emmanuel provides an ape development to download   [here](http://ape-package.ird.fr/ape_installation.html). 
+
+You can install the  development version for phangorn from github:
+```{r, eval=FALSE}
+# install.packages("remotes")
+remotes::install_github("KlausVigo/phangorn")
+```
+
+To compile these packages you may need to install on windows [Rtools](https://cran.r-project.org/bin/windows/Rtools/) and on mac [XCode](https://developer.apple.com/xcode/)
+and [GFortran](https://gcc.gnu.org/wiki/GFortranBinaries). Linux should work out of the box. 
+
+To install the development version of phangorn you may need to install the Biostrings and seqLogo package from bioconductor first:
+```
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(c("Biostrings", "seqLogo"))
+```
+
+
+## Getting help
+
+So many functions ... how to find/remember them?
+
+* write scripts (and maintain them!)
+* `help.start()`
+* ?... (or `help("...")`)
+* `apropos("...")`
+* use TAB-completion (or a “cool” editor)
+
+You can run the code examples in a help file with `example(plot.phylo)`. 
+
+Operators are also functions:
+```{r}
+get("+")
+'+'(1, 2)
+```
+
+Many packages provide vignettes with some small workflows. 
+```{r, eval=FALSE}
+# what vignettes are in package phangorn
+vignette(package="phangorn")
+# open one:
+vignette("IntertwiningTreesAndNetworks")
+```
+
+
+Apart from Google you can ask questions and search for answers on
+[r-sig-phylo](https://stat.ethz.ch/mailman/listinfo/r-sig-phylo), 
+[biostars](https://www.biostars.org/) or [stackoverflow](https://stackoverflow.com/),
+but respect the community and do not cross-post. 
+
+
+## The class "phylo" and "multiPhylo"
+
+```{r}
+library(ape)
+library(phangorn)
+library(magrittr)
+```
+
+The class *phylo* represents phylogenetic trees is defined in *ape* and used in many other packages. 
+
+To import a tree phylogenetic tree 
+
+* `read.tree`: Newick files 
+* `read.nexus`: Nexus files (tree block only)
+* `read.evonet`: Extended Newick format
+
+and to export trees we can use
+
+* `write.tree`: Newick files 
+* `write.nexus`: Nexus files (tree block only)
+* `write.evonet`: Extended Newick format
+
+If there is only one tree in the file we read in the object returned is of class `phylo`, otherwise the object is of class `multiPhylo`. `multiPhylo` is a mainly a list of trees of class `phylo`.  
+
+Let's start with reading in a small tree
+```{r}
+tree <- read.tree(text= "((a:1,b:1):1,c:2);")
+tree
+```
+and have a look at the internal structure
+```{r}
+str(tree)
+tree$edge
+```
+It makes a bit more sense when we plot the tree
+```{r}
+plot(tree, label.offset=.1)
+nodelabels()
+tiplabels()
+```
+Here we used already the generic function `plot.phylo` to plot the tree. 
+`plot.phylo` has a lot of parameters to adopt the plot to your needs. 
+
+Run 
+```
+example(plot.phylo)
+```
+and 
+```
+example(phydataplot)
+```
+to get a glimpse of the graphical capabilities. 
+If you prefer a basic GUI interface try [shinyTreeViewer](http://klash.shinyapps.io/shinyTreeViewer/). 
+
+
+Over the time a huge set of generic functions have been developed.
+Some of the functions I frequently use are:
+```
+root(phy, outgroup, ...)
+midpoint(x)
+drop.tip(phy, tip, ...)
+keep.tip(phy, tip, ...)
+extract.clade(phy, node, ...)
+bind.tree(x, y, ...)
+ladderize(phy)
+unroot(phy)
+multi2di(phy, random = TRUE)
+di2multi(phy, tol = 1e-8)
+rotate(phy, node)
+rotateConstr(phy, X)
+reorder(phy)
+```
+You can list all the function with
+```
+methods(class="phylo")
+methods(class="multiPhylo")
+```
+Now lets do a bit more interesting example. 
+First we download some MCMC tree sample from Dan folder. 
+```{r}
+trees_1 <- read.nexus("../7 - Dan Warren - MCMC convergence diagnostics using RWTY/fungus trees/fungus1.t") 
+trees_1
+class(trees_1)
+```
+
+If this should not work my favorite function in an interactive session is `file.choose()`. In this case try `trees_1 <- read.nexus(file.choose())`
+and navigate to the file. 
+
+`multiPhylo` objects can be in two forms: compressed or not. A compressed tree list cannot have duplicated tip labels. Do you need more details: `?.compressTipLabel`, `?multiphylo`.
+
+The functions `di2multi`, `multi2di`, `Ntip`, `Nnode`, `Nedge`, `reorder`, `is.ultrametric`, `root`, `unroot`, `is.rooted`, and `is.binary` are generic and work on objects of class `phylo` and `multiPhylo`.
+
+We can use on objects of class `multiPhylo` the classical operators on lists, `[`, `[[`, `$` (in both ways: extraction or assignment).
+As `trees_1` is an MCMC sample we may discard the burn-in  
+```{r}
+trees_1 <- trees_1[-c(1:1001)]
+par(mar = c(0,0,0,0))
+midpoint(trees_1[[1]]) %>% plot()
+```
+Not bad for the start, but the labels are too long.  
+
+*ape* has implemented several functions dedicated to string manipulation
+```
+abbreviateGenus(x, genus = TRUE, species = FALSE, sep = NULL)
+stripLabel(x, species = FALSE, subsp = TRUE, sep = NULL)
+label2table(x, sep = NULL, as.is = FALSE)
+makeLabel(x, len = 99, space = "_", make.unique = TRUE,
+          illegal = "():;,[]", quote = FALSE, ...)
+updateLabel(x, old, new, exact = TRUE, ...)
+mixedFontLabel(..., sep = " ", italic = NULL, bold = NULL, parenthesis = NULL,
+               always.upright = c("sp.", "spp.", "ssp."))
+```
+Let's use `abbreviateGenus` on the `trees_1`. 
+As we have an compressed version we need to do this only once. 
+```{r}
+attr(trees_1, "TipLabel") <- abbreviateGenus(attr(trees_1, "TipLabel"))
+par(mar = c(0,0,0,0))
+midpoint(trees_1[[1]]) %>% plot()
+```
+Next we want to explore these trees a bit more. Let's start with different types of consensus trees on our MCMC sample. 
+```{r}
+strict_consensus <- consensus(trees_1)
+majority_consensus <- consensus(trees_1, p=.5)
+all_compat <- allCompat(trees_1)
+max_clade_cred <- maxCladeCred(trees_1)
+plot(strict_consensus, main="Strict consensus tree")
+plot(majority_consensus, main="Majority consensus tree")
+plot(all_compat, main="Majority consensus tree with compatible splits")
+plot(max_clade_cred, main="Maximum clade credibility tree")
+```
+If you want to know more: `?consensus`, `?maxCladeCred`. 
+
+
+# Phylogenetic networks
+
+A generalization of a consensus tree is the consensusNet @Holland2004. 
+```{r}
+cnet <- consensusNet(trees_1, p=.25)
+plot(cnet, "equal")
+```
+A pretty cool feature is the possibility to plot networks in 3D. You need to have the rgl package installed to use this feature, which can be sometimes tricky to install. 
+```
+plot(cnet, "3D")
+```
+
+## Coloring edges
+
+Coloring edges in trees and especially networks can be tricky. The next example from @Schliep2017 shows how to do this. 
+```{r}
+# we create a path to the files we want to load 
+fdir <- system.file("extdata/trees", package = "phangorn")
+## NeigbourNet Nexus file generated by SplitsTree (from previous analysis)
+Nnet <- read.nexus.networx(file.path(fdir,"woodmouse.nxs"))
+## RAxML best-known tree with bipartition support (from previous analysis)
+raxml.tree <- read.tree(file.path(fdir,"RAxML_bipartitions.woodmouse"))
+
+par(mfrow=c(1,2))  
+# NeighbourNet
+plot(Nnet,"equal")
+#plot the tree
+plot(raxml.tree)
+```
+
+We want to identify edges in a neighbour-net (NN) network that 
+correspond to branches / edges in a tree (a maximum likelihood tree, in this case).
+```{r}
+# create a vector of labels for the network corresponding to edges in the tree
+edge.lab <- createLabel(Nnet, raxml.tree, raxml.tree$edge[,2], "edge")
+# could be also 1:27 instead of raxml.tree$edge[,2]
+
+# Show the correspondingly labelled tree and network in R
+par(mfrow=c(1,2))  
+plot(raxml.tree, "u", rotate.tree = 180, cex=.7) 
+edgelabels(raxml.tree$edge[,2],col="blue", frame="none", cex=.7)
+
+# find edges that are in the network but not in the tree
+edge.col <- rep("black", nrow(Nnet$edge))
+edge.col[ is.na(edge.lab) ] <- "red"
+# or a simpler alternative...
+edge.col <- createLabel(Nnet, raxml.tree, "black", nomatch="red")
+
+x <- plot(Nnet, edge.label = edge.lab, show.edge.label = T, "2D", edge.color =
+          edge.col, col.edge.label = "blue", cex=.7)
+```
+The above plot function returns an invisible networx object and this object also
+contains the colors for the edges. One can export x as a nexusfile to read in with other software like Splitstree.  
+```
+write.nexus.networx(x, file="colored_network.nex")
+```
+
+More examples are found in the `vignette("IntertwiningTreesAndNetworks")` and `vignette("Networx")`.
+
+
+# Codon models
+
+Last but not least some more complicated example to show tree reconstruction 
+and some some codon models for positive selection. 
+Here we use data set from and follow loosely the example in @Bielawski2004. 
+We first read in the data file using `read.phyDat` function. 
+```{r}
+(hiv_2_nef <- read.phyDat("./data/seqfile.txt") )
+```
+Next we build first a neighbor joining tree from a distance matrix
+```{r}
+tree_nj <- dist.ml(hiv_2_nef) %>% nj()
+tree_nj
+```
+This tree is used as starting tree in a short ML analysis. 
+```{r}
+fit <- pml(tree_nj, hiv_2_nef, k=4)
+fit <- optim.pml(fit, rearrangement = "NNI", model="GTR", optGamma=TRUE, 
+                 control = pml.control(trace=0))
+fit
+```
+Ideally we would have used `modelTest` beforehand and optimist the tree topology a bit more. `vignette("Trees")` contains more information on tree reconstruction.
+
+One recent addition (thanks to work with Keren Halabi) to phangorn are some still limited (and slow) models for detecting positive selection. So far only the M0, M1a and M2a model to model site wise selection are implemented. 
+```{r}
+fit_codon <- codonTest(fit$tree,  hiv_2_nef)
+fit_codon
+plot(fit_codon, "M1a", hcl.colors(3))
+plot(fit_codon, "M2a", hcl.colors(3))
+```
+
+# Session Information
+
+The version number of R ans packages loaded for generating this vignette were:
+```{r, echo=FALSE}
+sessionInfo()
+```
+
+# References
+
