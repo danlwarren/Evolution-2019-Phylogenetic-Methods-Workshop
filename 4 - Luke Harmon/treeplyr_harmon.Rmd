@@ -45,24 +45,17 @@ td[1:10, 2, tip.label=TRUE]
 td[[2]]
 td[['X1']]
 
+# this works as well
+plot(td$phy)
+
 # better way to extract columns that retains tip labels
 getVector(td, X1)
 getVector(td, D2)
 
-# this works as well
-plot(td$phy)
 
 ```
 
-## Working in the tidyverse
-
-*Reorder* 
-
-Reorder changes the internal node order in the phy object while maintaining the match between tips and trees. This has no effect on outputs, but can speed computation in some cases.
-
-```{r}
-td_po <- reorder(td, "postorder")
-```
+## Working in the tidyverse - some highlights
 
 *Select*
 
@@ -81,7 +74,7 @@ summary(td_s3)
 
 ```
 
-You can also use the fancy tools from dplyr.
+You can also use the fancy tools from dplyr as arguments to "select."
 
 ```{r}
 td_s4<-select(td, starts_with("D"))
@@ -134,13 +127,16 @@ ltt.plot(td$phy)
 phylosig(td$phy, getVector(td, X1))
 ```
 
-But there is a nifty way to do this:
+But there is a nifty way to do this using treedply, made specifically to run functions on a treedata object:
 
 ```{r}
 treedply(td, phylosig(phy, getVector(td, X1), "K"))
 treedply(td, list("K" = phylosig(phy, getVector(td, X1), "K"), "lambda" = phylosig(phy, getVector(td, X1),"lambda")))
 
 ```
+
+
+There are also "apply" functions from treedata objects, which allow us to easily iterate comparative methods across characters. treeplyr has some functions to make sure you know which characters you are dealing with.
 
 ```{r}
 tdDiscrete <- forceFactor(td)
@@ -155,6 +151,9 @@ fitsBM <- tdapply(tdNumeric, 2, geiger::fitContinuous, phy=phy, model="BM")
 sapply(fitsBM, function(x) x$opt$sigsq)
 ```
 
+
+There is also a function that iterates over the phylogeney part of the treedata object.
+
 ```{r}
 td.OU10 <- treeply(td, geiger::rescale, model="OU", 10)
 par(mfrow=c(1,2))
@@ -164,6 +163,10 @@ plot(td.OU10$phy)
 treeply(td, drop.tip, c(1:35))
 
 ```
+
+## Grouping tree tips
+
+Tree tips can be grouped together, taking advantage of dplyr's by_group function. You can then run functions over tree subsets using summarize, which has a special version in treeplyr that deals appropriately with grouped treedata objects. This syntax is extremely flexible and potentially powerful.
 
 ```{r}
 td.D1 <- group_by(td, D1)
@@ -179,6 +182,8 @@ summarise(td.D1, sigsq = geiger::fitContinuous(phy, setNames(X1, phy$tip.label))
                  root = geiger::fitContinuous(phy, setNames(X1, phy$tip.label))$opt$z0)
 
 ```
+
+
 
 ```{r}
 td.painted <- paint_clades(td, interactive=FALSE, type="nodes", ids=c(75, 66, 54, 48), plot=TRUE)
