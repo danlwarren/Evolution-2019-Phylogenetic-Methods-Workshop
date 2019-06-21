@@ -323,7 +323,7 @@ feed.mode
 eel.tree<-read.tree("elopomorph.tre")
 eel.tree
 mcmc<-mcmcMk(eel.tree,feed.mode,model="ARD",
-	prior.rate=100,prop.var=0.001,ngen=10000)
+	prior.rate=100,prop.var=0.001,ngen=20000)
 ```
 
 Now let's plot our results:
@@ -334,13 +334,14 @@ mar<-c(4.1,4.1,2.1,1.1)
 
 plot.new()
 par(mar=mar)
-plot.window(xlim=c(0,1),ylim=c(0,1))
+plot.window(xlim=c(0,1),ylim=c(0,1),asp=1)
 library(png)
 download.file(
 	"http://www.phytools.org/evol2019/Enchelycore_schismatorhynchus.png",
 	"eel-picture.png",mode="wb")
 img<-readPNG(source="eel-picture.png")
-rasterImage(img,0,0,1,1)
+rasterImage(img,0,((dim(img)[2]-dim(img)[1])/2)/dim(img)[2],1,
+	(dim(img)[2]-(dim(img)[2]-dim(img)[1])/2)/dim(img)[2])
 mtext(text="a) a biting eel",adj=0,line=0,cex=1)
 
 plotTree(eel.tree,fsize=0.5,ftype="i",
